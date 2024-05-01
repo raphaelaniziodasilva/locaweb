@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Calendar
 
 @Entity(tableName = "anexo")
 data class Attachment(
@@ -23,5 +24,11 @@ data class Attachment(
     // armazena o tipo MIME do anexo, que é um identificador de formato de arquivo. Por exemplo, para um arquivo PDF, o tipo MIME seria "application/pdf"
     @ColumnInfo(name = "tipo_mime")
     @NonNull
-    var mimeType: String
+    var mimeType: String,
+
+    @ColumnInfo(name = "created_at")
+    var createdAt: Long = Calendar.getInstance().timeInMillis,
+
+    @ColumnInfo(name = "updated_at")
+    var updatedAt: Long = Calendar.getInstance().timeInMillis
 )

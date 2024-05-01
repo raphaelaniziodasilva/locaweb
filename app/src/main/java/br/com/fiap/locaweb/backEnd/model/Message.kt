@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Calendar
 
 @Entity(tableName = "mensagem")
 data class Message(
@@ -52,5 +53,11 @@ data class Message(
 
     // Indica se a mensagem foi arquivada pelo usuário
     @ColumnInfo(name = "arquivada")
-    var archived: Boolean
+    var archived: Boolean,
+
+    @ColumnInfo(name = "created_at")
+    var createdAt: Long = Calendar.getInstance().timeInMillis,
+
+    @ColumnInfo(name = "updated_at")
+    var updatedAt: Long = Calendar.getInstance().timeInMillis
 )
