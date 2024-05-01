@@ -22,5 +22,5 @@ interface InboxDao {
     fun update(inbox: Inbox): Inbox
 
     @Delete
-    fun delete(inbox: Inbox): Int
+    fun delete(id: Long): Int
 }

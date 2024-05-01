@@ -22,5 +22,5 @@ interface AttachmentDao {
     fun update(attachment: Attachment): Attachment
 
     @Delete
-    fun delete(attachment: Attachment): Int
+    fun delete(id: Long): Int
 }

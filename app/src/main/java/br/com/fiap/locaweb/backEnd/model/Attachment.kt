@@ -30,5 +30,5 @@ data class Attachment(
     var createdAt: Long = Calendar.getInstance().timeInMillis,
 
     @ColumnInfo(name = "updated_at")
-    var updatedAt: Long = Calendar.getInstance().timeInMillis
+    var updatedAt: Long
 )

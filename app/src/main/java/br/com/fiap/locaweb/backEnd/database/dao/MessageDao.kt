@@ -22,5 +22,5 @@ interface MessageDao {
     fun update(message: Message): Message
 
     @Delete
-    fun delete(message: Message): Int
+    fun delete(id: Long): Int
 }
