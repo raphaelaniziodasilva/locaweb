@@ -8,7 +8,7 @@ import java.util.Calendar
 class MessageRepository(context: Context) {
     private val db = AppDatabase.getDatabase(context).messageDao()
 
-    fun create(message: Message): Message {
+    fun create(message: Message): Long {
         return db.create(message)
     }
 
@@ -20,7 +20,7 @@ class MessageRepository(context: Context) {
         return db.getMessageById(id)
     }
 
-    fun update(id: Long, newMessage: Message): Message {
+    fun update(id: Long, newMessage: Message): Int {
         val existingMessage = db.getMessageById(id)
         if(existingMessage == null) {
             throw IllegalArgumentException("Menssagem não encontrada")
@@ -40,11 +40,10 @@ class MessageRepository(context: Context) {
             updatedAt = Calendar.getInstance().timeInMillis
         )
 
-        db.update(updatedMessage)
-        return updatedMessage
+        return db.update(updatedMessage)
     }
 
-    fun delete(id: Long): Int {
-        return db.delete(id)
+    fun delete(message: Message): Int {
+        return db.delete(message)
     }
 }

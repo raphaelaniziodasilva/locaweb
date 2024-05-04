@@ -8,7 +8,7 @@ import java.util.Calendar
 class InboxRepository(context: Context) {
     private val db = AppDatabase.getDatabase(context).inboxDao()
 
-    fun create(inbox: Inbox): Inbox {
+    fun create(inbox: Inbox): Long {
         return create(inbox)
     }
 
@@ -20,7 +20,7 @@ class InboxRepository(context: Context) {
         return db.getInboxById(id)
     }
 
-    fun update(id: Long, newInbox: Inbox): Inbox {
+    fun update(id: Long, newInbox: Inbox): Int {
         val existingInbox = db.getInboxById(id)
         if(existingInbox == null){
             throw IllegalArgumentException(" Caixa entrada não existe")
@@ -31,12 +31,11 @@ class InboxRepository(context: Context) {
             updatedAt = Calendar.getInstance().timeInMillis
         )
 
-        db.update(updatedInbox)
-        return updatedInbox
+        return db.update(updatedInbox)
     }
 
-    fun delete(id: Long): Int {
-        return db.delete(id)
+    fun delete(inbox: Inbox): Int {
+        return db.delete(inbox)
     }
 
 }

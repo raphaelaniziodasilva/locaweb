@@ -10,7 +10,7 @@ import br.com.fiap.locaweb.backEnd.model.Inbox
 @Dao
 interface InboxDao {
     @Insert
-    fun create(inbox: Inbox): Inbox
+    fun create(inbox: Inbox): Long
 
     @Query("SELECT * FROM caixa_entrada ORDER BY created_at")
     fun getAllInbox(): List<Inbox>
@@ -19,8 +19,8 @@ interface InboxDao {
     fun getInboxById(id: Long): Inbox
 
     @Update
-    fun update(inbox: Inbox): Inbox
+    fun update(inbox: Inbox): Int
 
     @Delete
-    fun delete(id: Long): Int
+    fun delete(inbox: Inbox): Int
 }

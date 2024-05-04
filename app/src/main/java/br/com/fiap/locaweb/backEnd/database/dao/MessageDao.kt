@@ -10,7 +10,7 @@ import br.com.fiap.locaweb.backEnd.model.Message
 @Dao
 interface MessageDao {
     @Insert
-    fun create(message: Message): Message
+    fun create(message: Message): Long
 
     @Query("SELECT * FROM mensagem ORDER BY created_at")
     fun getAllMessage(): List<Message>
@@ -19,8 +19,8 @@ interface MessageDao {
     fun getMessageById(id: Long): Message
 
     @Update
-    fun update(message: Message): Message
+    fun update(message: Message): Int
 
     @Delete
-    fun delete(id: Long): Int
+    fun delete(message: Message): Int
 }

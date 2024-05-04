@@ -10,7 +10,7 @@ import br.com.fiap.locaweb.backEnd.model.User
 @Dao
 interface UserDao {
     @Insert
-    fun create(user: User): User
+    fun create(user: User): Long
 
     @Query("SELECT * FROM contato ORDER BY created_at")
     fun getAllUser(): List<User>
@@ -19,8 +19,8 @@ interface UserDao {
     fun getUserByEmail(email: String): User
 
     @Update
-    fun update(user: User): User
+    fun update(user: User): Int
 
     @Delete
-    fun delete(id: Long): Int
+    fun delete(user: User): Int
 }

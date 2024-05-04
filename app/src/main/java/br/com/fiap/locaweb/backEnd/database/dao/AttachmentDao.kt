@@ -10,7 +10,7 @@ import br.com.fiap.locaweb.backEnd.model.Attachment
 @Dao
 interface AttachmentDao {
     @Insert
-    fun create(attachment: Attachment): Attachment
+    fun create(attachment: Attachment): Long
 
     @Query("SELECT * FROM anexo ORDER BY nome_arquivo")
     fun getAllAttachment(): List<Attachment>
@@ -19,8 +19,8 @@ interface AttachmentDao {
     fun getAttachmentByID(id: Long): Attachment
 
     @Update
-    fun update(attachment: Attachment): Attachment
+    fun update(attachment: Attachment): Int
 
     @Delete
-    fun delete(id: Long): Int
+    fun delete(attachment: Attachment): Int
 }

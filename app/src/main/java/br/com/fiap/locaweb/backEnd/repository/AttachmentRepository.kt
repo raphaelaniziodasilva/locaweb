@@ -8,7 +8,7 @@ import java.util.Calendar
 class AttachmentRepository(context: Context) {
     private val db = AppDatabase.getDatabase(context).attachmentDao()
 
-    fun create(attachment: Attachment): Attachment {
+    fun create(attachment: Attachment): Long {
         return db.create(attachment)
     }
 
@@ -20,7 +20,7 @@ class AttachmentRepository(context: Context) {
         return db.getAttachmentByID(id)
     }
 
-    fun update(id: Long, newAttachment: Attachment): Attachment {
+    fun update(id: Long, newAttachment: Attachment): Int {
         val existingAttachment = db.getAttachmentByID(id)
         if(existingAttachment == null) {
             throw IllegalArgumentException("Arquivo não existe")
@@ -33,12 +33,10 @@ class AttachmentRepository(context: Context) {
             updatedAt = Calendar.getInstance().timeInMillis
         )
 
-        db.update(updatedAttachment)
-        return updatedAttachment
+        return db.update(updatedAttachment)
     }
 
-    fun delete(id: Long): Int {
-        return db.delete(id)
+    fun delete(attachment: Attachment): Int {
+        return db.delete(attachment)
     }
-
 }
