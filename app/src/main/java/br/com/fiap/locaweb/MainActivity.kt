@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
+import br.com.fiap.locaweb.frontEnd.screen.LoginScreenViewModel
 import br.com.fiap.locaweb.ui.theme.LocawebTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen()
+                    LoginScreen(LoginScreenViewModel())
                 }
             }
         }
