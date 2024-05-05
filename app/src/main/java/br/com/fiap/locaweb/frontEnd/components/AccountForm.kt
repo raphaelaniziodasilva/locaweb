@@ -258,7 +258,6 @@ fun AccountForm(
 
                     userRepository.create(user)
                     update()
-
                     onNameChange("")
                     onSurnameChange("")
                     onDateOfBirthChange("")
