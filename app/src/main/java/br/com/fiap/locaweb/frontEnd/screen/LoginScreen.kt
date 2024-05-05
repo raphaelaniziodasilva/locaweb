@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,20 +28,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.fiap.locaweb.R
 import br.com.fiap.locaweb.frontEnd.components.InputField
 
 @Composable
-fun LoginScreen(loginScreenViewModel: LoginScreenViewModel) {
+fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenViewModel) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
-        .padding(16.dp),
+        .padding(10.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
         val email by loginScreenViewModel.emailState.observeAsState(initial = "")
         val password by loginScreenViewModel.passwordState.observeAsState(initial = "")
@@ -67,15 +73,18 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel) {
 
             Card(modifier = Modifier
                 .fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                shape = RoundedCornerShape(8.dp)
             ) {
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xD569BEEB))
-                    .padding(top = 20.dp),
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = colorResource(id = R.color.blue_ligth))
+                        .padding(top = 20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     InputField(
-                        label = "Digite seu email",
+                        label = "E-mail",
                         placeholder = "teste@mail.com",
                         value = email,
                         keyboardType = KeyboardType.Email,
@@ -98,8 +107,8 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel) {
                     }
                     
                     InputField(
-                        label = "Digite a sua senha",
-                        placeholder = "senha",
+                        label = "Ssenha",
+                        placeholder = "Digite sua senha",
                         value = password,
                         keyboardType = KeyboardType.Password,
                         modifier = Modifier
@@ -129,8 +138,8 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel) {
                         },
                         modifier = Modifier
                             .width(150.dp)
-                            .height(50.dp)
-                            .padding(bottom = 10.dp)
+                            .height(60.dp)
+                            .padding(bottom = 20.dp)
                     ){
                         Text(
                             text = "Entrar",
@@ -139,8 +148,24 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel) {
                         )
                     }
                 }
-
             }
+
+            Button(
+                // quando clicado, navega para a tela de contatos
+                onClick = {
+                    // configurando para navegar para a tela de contatosScreen: Contatos
+                    navController.navigate("createAccountScreen")
+                },
+                colors = ButtonDefaults.buttonColors(Color.White),
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Criar conta",
+                    fontSize = 20.sp,
+                    color = Color.Blue
+                )
+            }
+
         }
     }
 }

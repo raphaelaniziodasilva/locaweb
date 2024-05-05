@@ -18,6 +18,14 @@ data class User(
     @Size(min = 2, max = 150)
     var name: String,
 
+    @ColumnInfo(name = "sobrenome")
+    @Size(min = 2, max = 150)
+    var surname: String?,
+
+    @ColumnInfo(name = "data_de_nascimento")
+    @NonNull
+    val dateOfBirth: String,
+
     @NonNull
     @Size(min = 11, max = 150)
     var email: String,

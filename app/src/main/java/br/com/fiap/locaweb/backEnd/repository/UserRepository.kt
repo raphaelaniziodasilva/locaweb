@@ -33,6 +33,9 @@ class UserRepository(context: Context) {
 
         val updatedUser = existingUser.copy(
             name = newUser.name,
+            surname = newUser.surname,
+            dateOfBirth = newUser.dateOfBirth,
+            gender = newUser.gender,
             email = newUser.email,
             password = newUser.password,
             phoneNumber = newUser.phoneNumber,
