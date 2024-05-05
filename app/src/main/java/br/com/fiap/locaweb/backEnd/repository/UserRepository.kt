@@ -35,7 +35,6 @@ class UserRepository(context: Context) {
             name = newUser.name,
             surname = newUser.surname,
             dateOfBirth = newUser.dateOfBirth,
-            gender = newUser.gender,
             email = newUser.email,
             password = newUser.password,
             phoneNumber = newUser.phoneNumber,

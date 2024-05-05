@@ -6,7 +6,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Calendar
 
 @Entity(tableName = "contato", indices = [Index(value = ["email"], unique = true)])
 data class User(
@@ -40,8 +39,8 @@ data class User(
     var phoneNumber: String?,
 
     @ColumnInfo(name = "created_at")
-    var createdAt: Long = Calendar.getInstance().timeInMillis,
+    var createdAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "updated_at")
-    var updatedAt: Long
+    var updatedAt: Long = System.currentTimeMillis()
 )

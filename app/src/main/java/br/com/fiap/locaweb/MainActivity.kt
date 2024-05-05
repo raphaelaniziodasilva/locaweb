@@ -10,8 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.fiap.locaweb.frontEnd.screen.ContatosScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreen
+import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreenViewModel
 import br.com.fiap.locaweb.ui.theme.LocawebTheme
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(navController, LoginScreenViewModel())
                         }
                         composable(route = "createAccountScreen"){
-                            CreateAccountScreen(ContatosScreenViewModel())
+                            CreateAccountScreen(CreateAccountScreenViewModel())
                         }
 
                     }
