@@ -33,11 +33,11 @@ data class Message(
 
     // Indica quando a mensagem foi enviada.
     @ColumnInfo(name = "data_envio")
-    var sentDate: Long,
+    var sentDate: Long = System.currentTimeMillis(),
 
     // Indica quando a mensagem foi recebida.
     @ColumnInfo(name = "data_recebimento")
-    var receiptDate: Long,
+    var receiptDate: Long = System.currentTimeMillis(),
 
     // Indica se a mensagem foi lida. Pode ser usado para rastrear o status de leitura da mensagem.
     @ColumnInfo(name = "status_leitura")
@@ -53,11 +53,11 @@ data class Message(
 
     // Indica se a mensagem foi arquivada pelo usuário
     @ColumnInfo(name = "arquivada")
-    var archived: Boolean,
+    var archived: Boolean = false,
 
     @ColumnInfo(name = "created_at")
     var createdAt: Long = Calendar.getInstance().timeInMillis,
 
     @ColumnInfo(name = "updated_at")
-    var updatedAt: Long
+    var updatedAt: Long = System.currentTimeMillis()
 )

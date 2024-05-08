@@ -48,7 +48,8 @@ fun AccountForm(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPhoneNumberChange: (String) -> Unit,
-    update: () -> Unit
+    update: () -> Unit,
+    onCadastroSuccess: () -> Unit
     ) {
 
     var emptyName by remember {
@@ -258,6 +259,7 @@ fun AccountForm(
 
                     userRepository.create(user)
                     update()
+                    onCadastroSuccess()
                     onNameChange("")
                     onSurnameChange("")
                     onDateOfBirthChange("")

@@ -14,6 +14,8 @@ import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreen
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreenViewModel
+import br.com.fiap.locaweb.frontEnd.screen.MessageScreen
+import br.com.fiap.locaweb.frontEnd.screen.MessageScreenViewModel
 import br.com.fiap.locaweb.ui.theme.LocawebTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
@@ -38,7 +40,10 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(navController, LoginScreenViewModel())
                         }
                         composable(route = "createAccountScreen"){
-                            CreateAccountScreen(CreateAccountScreenViewModel())
+                            CreateAccountScreen(navController, CreateAccountScreenViewModel())
+                        }
+                        composable(route = "messageScreen"){
+                            MessageScreen(MessageScreenViewModel())
                         }
 
                     }

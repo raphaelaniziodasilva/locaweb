@@ -7,11 +7,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.AccountForm
 
 @Composable
-fun CreateAccountScreen(createAccountScreenViewModel: CreateAccountScreenViewModel) {
+fun CreateAccountScreen(navController: NavController, createAccountScreenViewModel: CreateAccountScreenViewModel) {
     val name by createAccountScreenViewModel.nameState.observeAsState(initial = "")
     val surname by createAccountScreenViewModel.surnameState.observeAsState(initial = "")
     val dateOfBirth by createAccountScreenViewModel.dateOfBirthState.observeAsState(initial = "")
@@ -54,6 +55,9 @@ fun CreateAccountScreen(createAccountScreenViewModel: CreateAccountScreenViewMod
             },
             update = {
                 listaContatos.value = userRepository.getAllUser()
+            },
+            onCadastroSuccess = {
+                navController.navigate("login")
             }
         )
     }
