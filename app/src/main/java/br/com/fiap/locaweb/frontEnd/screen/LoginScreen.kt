@@ -166,6 +166,7 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
 
             Button(
                 onClick = {
+                    // configurando para navegar para a tela de contatosScreen: Contatos
                     navController.navigate("messageScreen")
                 },
                 colors = ButtonDefaults.buttonColors(Color.White),
