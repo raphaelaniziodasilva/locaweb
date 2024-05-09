@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreen
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreenViewModel
+import br.com.fiap.locaweb.frontEnd.screen.InboxScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.MessageScreen
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "messageScreen"){
                             MessageScreen(MessageScreenViewModel())
+                        }
+                        composable(route = "inboxScreen"){
+                            InboxScreen()
                         }
 
                     }

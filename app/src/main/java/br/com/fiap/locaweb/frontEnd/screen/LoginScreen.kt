@@ -179,6 +179,21 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                 )
             }
 
+            Button(
+                onClick = {
+                    // configurando para navegar para a tela de contatosScreen: Contatos
+                    navController.navigate("inboxScreen")
+                },
+                colors = ButtonDefaults.buttonColors(Color.White),
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Caixa de entrada",
+                    fontSize = 20.sp,
+                    color = Color.Blue
+                )
+            }
+
         }
     }
 }

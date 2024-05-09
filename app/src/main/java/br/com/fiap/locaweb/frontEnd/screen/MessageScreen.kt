@@ -1,18 +1,17 @@
 package br.com.fiap.locaweb.frontEnd.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,9 +37,6 @@ import br.com.fiap.locaweb.frontEnd.components.InputField
 fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color.DarkGray) // Adiciona o fundo cinza escuro
-        .padding(10.dp),
-        contentAlignment = Alignment.TopCenter
     ) {
         val sender by messageScreenViewModel.senderState.observeAsState(initial = "")
         val recipients by messageScreenViewModel.recipientsState.observeAsState(initial = "")
@@ -70,8 +66,6 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
         Column(
             modifier = Modifier.
                 fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(modifier = Modifier
                 .fillMaxWidth(),
@@ -83,13 +77,40 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                         .background(color = colorResource(id = R.color.white)),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    IconButton(
+                        onClick = {
+                            if(sender.isEmpty() || recipients.isEmpty() || subject.isEmpty() || body.isEmpty()) {
+                                emptySender = sender.isEmpty()
+                                emptyRecipients = recipients.isEmpty()
+                                emptySubject = subject.isEmpty()
+                                emptyBody = body.isEmpty()
+                            } else {
+                                val message = Message(
+                                    id = 0,
+                                    sender = sender,
+                                    recipients = recipients,
+                                    subject = subject,
+                                    body = body
+                                )
+
+                                messageRepository.create(message)
+                            }
+                        } ,
+                        modifier = Modifier
+                                .align(Alignment.End)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = "Enviar",
+                        )
+                    }
+
                     InputField(
                         label = "De",
                         placeholder = "teste@mail.com",
                         value = sender,
                         keyboardType = KeyboardType.Email,
                         modifier = Modifier
-                            .padding(top = 16.dp)
                             .fillMaxWidth(),
                         updateValue = {
                             messageScreenViewModel.onSenderChanged(it)
@@ -114,7 +135,6 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                         value = recipients,
                         keyboardType = KeyboardType.Email,
                         modifier = Modifier
-                            .padding(top = 16.dp)
                             .fillMaxWidth(),
                         updateValue = {
                             messageScreenViewModel.onRecipientsChanged(it)
@@ -138,7 +158,6 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                         value = subject,
                         keyboardType = KeyboardType.Text,
                         modifier = Modifier
-                            .padding(top = 16.dp)
                             .fillMaxWidth(),
                         updateValue = {
                             messageScreenViewModel.onSubjectChanged(it)
@@ -162,9 +181,8 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                         value = body,
                         keyboardType = KeyboardType.Text,
                         modifier = Modifier
-                            .padding(top = 16.dp)
                             .fillMaxWidth()
-                            .height(300.dp),
+                            .height(510.dp),
                         updateValue = {
                             messageScreenViewModel.onBodyChanged(it)
                         },
@@ -180,40 +198,6 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                             textAlign = TextAlign.Center
                         )
                     }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        onClick = {
-                            if(sender.isEmpty() || recipients.isEmpty() || subject.isEmpty() || body.isEmpty()) {
-                                emptySender = sender.isEmpty()
-                                emptyRecipients = recipients.isEmpty()
-                                emptySubject = subject.isEmpty()
-                                emptyBody = body.isEmpty()
-                            } else {
-                                val message = Message(
-                                    id = 0,
-                                    sender = sender,
-                                    recipients = recipients,
-                                    subject = subject,
-                                    body = body
-                                )
-
-                                messageRepository.create(message)
-                            }
-                        },
-                        modifier = Modifier
-                            .width(150.dp)
-                            .height(60.dp)
-                            .padding(bottom = 20.dp)
-                    ) {
-                        Text(
-                            text = "Cadastrar",
-                            textAlign = TextAlign.Center,
-                            fontSize = 16.sp
-                        )
-                    }
-
                 }
             }
         }
