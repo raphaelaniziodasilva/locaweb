@@ -47,4 +47,19 @@ class UserRepository(context: Context) {
     fun delete(user: User): Int {
         return db.delete(user)
     }
+
+    fun loginUser(email: String, password: String): Pair<Boolean, String> {
+        if (email.isEmpty() || password.isEmpty()) {
+            val errorMessage = if (email.isEmpty()) "E-mail obrigatório" else "Senha obrigatória"
+            return Pair(false, errorMessage)
+        }
+
+        val user = db.getUserByEmail(email)
+        return if (user != null && user.password == password) {
+            Pair(true, "")
+        } else {
+            Pair(false, "E-mail ou senha inválidos")
+        }
+    }
+
 }

@@ -1,7 +1,6 @@
 package br.com.fiap.locaweb.backEnd.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -21,6 +20,6 @@ interface MessageDao {
     @Update
     fun update(message: Message): Int
 
-    @Delete
-    fun delete(message: Message): Int
+    @Query("DELETE FROM mensagem WHERE id = :id")
+    fun delete(id: Long): Int
 }

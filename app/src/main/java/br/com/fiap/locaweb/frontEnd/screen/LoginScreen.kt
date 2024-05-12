@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.locaweb.R
+import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.InputField
 
 @Composable
@@ -55,6 +57,9 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
         var emptyPassword by remember {
             mutableStateOf(false)
         }
+
+        val context = LocalContext.current
+        val userRepository = UserRepository(context)
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -135,6 +140,16 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                         onClick = {
                             if(email.isEmpty()) emptyEmail = true else emptyEmail = false
                             if(password.isEmpty()) emptyPassword = true else emptyPassword = false
+
+                            val (loginSuccess, errorMessage) = userRepository.loginUser(email, password)
+                            if (loginSuccess) {
+                                // Redirecionar para a tela de caixa de entrada
+                                navController.navigate("inboxScreen")
+                            } else {
+                                // Exibir uma mensagem de erro para o usuário
+                            }
+
+
                         },
                         modifier = Modifier
                             .width(150.dp)

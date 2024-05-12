@@ -3,7 +3,9 @@ package br.com.fiap.locaweb.backEnd.repository
 import android.content.Context
 import br.com.fiap.locaweb.backEnd.database.AppDatabase
 import br.com.fiap.locaweb.backEnd.model.Message
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class MessageRepository(context: Context) {
     private val db = AppDatabase.getDatabase(context).messageDao()
@@ -37,13 +39,22 @@ class MessageRepository(context: Context) {
             important = newMessage.important,
             favorite = newMessage.favorite,
             archived = newMessage.archived,
-            updatedAt = Calendar.getInstance().timeInMillis
+            updatedAt = getCurrentDateTime()
         )
 
         return db.update(updatedMessage)
     }
 
-    fun delete(message: Message): Int {
-        return db.delete(message)
+    fun delete(id: Long): Int {
+        return db.delete(id)
     }
+
+    companion object {
+        fun getCurrentDateTime(): String {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+            val date = Calendar.getInstance().time
+            return dateFormat.format(date)
+        }
+    }
+
 }

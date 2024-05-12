@@ -1,6 +1,12 @@
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,26 +31,38 @@ fun MessageItemScreen(messageId: Long, navController: NavController) {
             .padding(16.dp)
             .fillMaxSize()
     ) {
+        IconButton(
+            onClick = {
+                messageRepository.delete(messageId)
+                navController.popBackStack()
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Excluir"
+            )
+        }
+
         Text(
-            text = "From: ${message.value.sender}",
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = message.value.subject,
+            modifier = Modifier.padding(bottom = 8.dp),
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = "To: ${message.value.recipients}",
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = "De ${message.value.sender}",
+            modifier = Modifier.padding(bottom = 8.dp),
         )
         Text(
-            text = "Subject: ${message.value.subject}",
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = "Body: ${message.value.body}",
+            text = "Para: ${message.value.recipients}",
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
             text = "Sent Date: ${message.value.sentDate}",
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        // Outras informações da mensagem, como data de recebimento, status de leitura, etc., podem ser adicionadas aqui
+        Text(
+            text = "Body: ${message.value.body}",
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
     }
 }

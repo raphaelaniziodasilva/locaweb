@@ -4,7 +4,9 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @Entity(tableName = "mensagem")
 data class Message(
@@ -33,11 +35,11 @@ data class Message(
 
     // Indica quando a mensagem foi enviada.
     @ColumnInfo(name = "data_envio")
-    var sentDate: Long = System.currentTimeMillis(),
+    var sentDate: String = getCurrentDateTime(),
 
     // Indica quando a mensagem foi recebida.
     @ColumnInfo(name = "data_recebimento")
-    var receiptDate: Long = System.currentTimeMillis(),
+    var receiptDate: String = getCurrentDateTime(),
 
     // Indica se a mensagem foi lida. Pode ser usado para rastrear o status de leitura da mensagem.
     @ColumnInfo(name = "status_leitura")
@@ -56,8 +58,16 @@ data class Message(
     var archived: Boolean = false,
 
     @ColumnInfo(name = "created_at")
-    var createdAt: Long = Calendar.getInstance().timeInMillis,
+    var createdAt: String = getCurrentDateTime(),
 
     @ColumnInfo(name = "updated_at")
-    var updatedAt: Long = System.currentTimeMillis()
-)
+    var updatedAt: String = getCurrentDateTime()
+) {
+    companion object {
+        fun getCurrentDateTime(): String {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+            val date = Calendar.getInstance().time
+            return dateFormat.format(date)
+        }
+    }
+}
