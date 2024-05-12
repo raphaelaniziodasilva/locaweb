@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -22,13 +23,16 @@ import androidx.compose.ui.unit.sp
 import br.com.fiap.locaweb.backEnd.model.Message
 import br.com.fiap.locaweb.backEnd.model.User
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Inbox(
     user: User,
     message: Message,
+    onItemClick: (Message) -> Unit // Adicione o parâmetro onItemClick
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
+        onClick = { onItemClick(message) } // Chame onItemClick ao clicar na mensagem
     ) {
         val context = LocalContext.current
 
@@ -57,6 +61,7 @@ fun Inbox(
 fun MessageList(
     users: MutableState<List<User>>,
     messages: MutableState<List<Message>>,
+    onItemClick: (Message) -> Unit
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -65,10 +70,11 @@ fun MessageList(
     ) {
         for (user in users.value){
             for (message in messages.value) {
-                Inbox(user, message)
+                Inbox(user, message) {
+                    onItemClick(message)
+                }
                 Spacer(modifier = Modifier.height(4.dp))
             }
         }
     }
 }
-

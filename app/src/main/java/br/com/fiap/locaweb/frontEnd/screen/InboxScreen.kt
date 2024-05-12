@@ -9,12 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import br.com.fiap.locaweb.backEnd.repository.MessageRepository
 import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.MessageList
 
 @Composable
-fun InboxScreen() {
+fun InboxScreen(navController: NavController) {
     val context = LocalContext.current
     val userRepository = UserRepository(context)
     val messageRepository = MessageRepository(context)
@@ -39,7 +40,11 @@ fun InboxScreen() {
 
         MessageList(
             users = contactsList,
-            messages = messageList
+            messages = messageList,
+            onItemClick = { message ->
+                // Navegar para a tela de detalhes da mensagem ao clicar nela
+                navController.navigate("message_item_screen/${message.id}")
+            }
         )
     }
 }

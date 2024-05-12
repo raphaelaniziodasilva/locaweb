@@ -1,5 +1,6 @@
 package br.com.fiap.locaweb
 
+import MessageItemScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -47,7 +48,13 @@ class MainActivity : ComponentActivity() {
                             MessageScreen(MessageScreenViewModel())
                         }
                         composable(route = "inboxScreen"){
-                            InboxScreen()
+                            InboxScreen(navController)
+                        }
+                        composable(route = "message_item_screen/{messageId}"){
+                            val messageId = it.arguments?.getString("messageId")?.toLongOrNull()
+                            messageId?.let { messageId ->
+                                MessageItemScreen(messageId = messageId, navController = navController)
+                            }
                         }
 
                     }
