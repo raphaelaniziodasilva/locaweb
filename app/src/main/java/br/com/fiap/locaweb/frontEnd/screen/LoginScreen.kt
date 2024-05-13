@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -58,6 +59,8 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
             mutableStateOf(false)
         }
 
+        var showError by remember { mutableStateOf(false) }
+
         val context = LocalContext.current
         val userRepository = UserRepository(context)
 
@@ -73,8 +76,6 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                 modifier = Modifier
                     .size(width = 240.dp, height = 180.dp)
             )
-
-            //Spacer(modifier = Modifier.height(16.dp))
 
             Card(modifier = Modifier
                 .fillMaxWidth(),
@@ -110,9 +111,9 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                             textAlign = TextAlign.Center
                         )
                     }
-                    
+
                     InputField(
-                        label = "Ssenha",
+                        label = "Senha",
                         placeholder = "Digite sua senha",
                         value = password,
                         keyboardType = KeyboardType.Password,
@@ -135,7 +136,7 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                     }
 
                     Spacer(modifier = Modifier.height(32.dp))
-                    
+
                     Button(
                         onClick = {
                             if(email.isEmpty()) emptyEmail = true else emptyEmail = false
@@ -143,13 +144,10 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
 
                             val (loginSuccess, errorMessage) = userRepository.loginUser(email, password)
                             if (loginSuccess) {
-                                // Redirecionar para a tela de caixa de entrada
                                 navController.navigate("inboxScreen")
                             } else {
-                                // Exibir uma mensagem de erro para o usuário
+                                showError = true
                             }
-
-
                         },
                         modifier = Modifier
                             .width(150.dp)
@@ -161,6 +159,19 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                             textAlign = TextAlign.Center,
                             fontSize = 16.sp
                         )
+                    }
+                    if (showError) {
+                        Snackbar(
+                            action = {
+                                Button(
+                                    onClick = { showError = false }
+                                ) {
+                                    Text("OK")
+                                }
+                            }
+                        ) {
+                            Text("Email ou senha incorretos")
+                        }
                     }
                 }
             }
@@ -178,37 +189,6 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                     color = Color.Blue
                 )
             }
-
-            Button(
-                onClick = {
-                    // configurando para navegar para a tela de contatosScreen: Contatos
-                    navController.navigate("messageScreen")
-                },
-                colors = ButtonDefaults.buttonColors(Color.White),
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = "Criar Menssagem",
-                    fontSize = 20.sp,
-                    color = Color.Blue
-                )
-            }
-
-            Button(
-                onClick = {
-                    // configurando para navegar para a tela de contatosScreen: Contatos
-                    navController.navigate("inboxScreen")
-                },
-                colors = ButtonDefaults.buttonColors(Color.White),
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = "Caixa de entrada",
-                    fontSize = 20.sp,
-                    color = Color.Blue
-                )
-            }
-
         }
     }
 }
