@@ -13,7 +13,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,12 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.locaweb.backEnd.model.Message
-import br.com.fiap.locaweb.backEnd.model.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Inbox(
-    user: User,
     message: Message,
     onItemClick: (Message) -> Unit // Adicione o parâmetro onItemClick
 ) {
@@ -42,11 +39,19 @@ fun Inbox(
             Column(modifier = Modifier
                 .padding(8.dp)
                 .weight(2f)) {
-                Text(
-                    text = user.name,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row {
+                    Text(
+                        text = message.senderName,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = message.sentDate,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 Text(
                     text = message.subject,
                     fontSize = 16.sp,
@@ -59,8 +64,7 @@ fun Inbox(
 
 @Composable
 fun MessageList(
-    users: MutableState<User>,
-    messages: MutableState<List<Message>>,
+    messages: List<Message>,
     onItemClick: (Message) -> Unit
 ) {
     Column(
@@ -69,9 +73,9 @@ fun MessageList(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        for (message in messages.value) {
+        for (message in messages) {
             // Acessando o usuário diretamente, já que users.value contém o usuário único
-            Inbox(users.value, message) {
+            Inbox(message) {
                 onItemClick(it)
             }
             Spacer(modifier = Modifier.height(4.dp))

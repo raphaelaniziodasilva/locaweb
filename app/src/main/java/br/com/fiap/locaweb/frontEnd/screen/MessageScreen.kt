@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import br.com.fiap.locaweb.R
 import br.com.fiap.locaweb.backEnd.model.Message
 import br.com.fiap.locaweb.backEnd.repository.MessageRepository
+import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.InputField
 
 @Composable
@@ -60,7 +61,11 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
 
         val context = LocalContext.current
         val messageRepository = MessageRepository(context)
+        val userRepository = UserRepository(context)
 
+        var user by remember {
+            mutableStateOf(userRepository.getUserByEmail(sender))
+        }
 
         Column(
             modifier = Modifier.
@@ -84,19 +89,22 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                                 emptySubject = subject.isEmpty()
                                 emptyBody = body.isEmpty()
                             } else {
+                                // Atualiza o usuário antes de criar a mensagem
+                                user = userRepository.getUserByEmail(sender)
+
                                 val message = Message(
                                     id = 0,
                                     sender = sender,
                                     recipients = recipients,
                                     subject = subject,
                                     body = body,
-                                    senderName= senderName,
-                                    senderEmail = senderEmail
+                                    senderName = user.name,
+                                    senderEmail = user.email
                                 )
 
                                 messageRepository.create(message)
                             }
-                        } ,
+                        },
                         modifier = Modifier
                                 .align(Alignment.End)
                     ) {
