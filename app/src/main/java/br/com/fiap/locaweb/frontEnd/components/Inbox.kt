@@ -59,22 +59,22 @@ fun Inbox(
 
 @Composable
 fun MessageList(
-    users: MutableState<List<User>>,
+    users: MutableState<User>,
     messages: MutableState<List<Message>>,
     onItemClick: (Message) -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
-        .verticalScroll(rememberScrollState())
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        for (user in users.value){
-            for (message in messages.value) {
-                Inbox(user, message) {
-                    onItemClick(message)
-                }
-                Spacer(modifier = Modifier.height(4.dp))
+        for (message in messages.value) {
+            // Acessando o usuário diretamente, já que users.value contém o usuário único
+            Inbox(users.value, message) {
+                onItemClick(it)
             }
+            Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }

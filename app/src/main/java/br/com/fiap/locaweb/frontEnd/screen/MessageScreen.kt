@@ -42,6 +42,8 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
         val recipients by messageScreenViewModel.recipientsState.observeAsState(initial = "")
         val subject by messageScreenViewModel.subjectState.observeAsState(initial = "")
         val body by messageScreenViewModel.bodyState.observeAsState(initial = "")
+        val senderName by messageScreenViewModel.senderNameState.observeAsState(initial = "")
+        val senderEmail by messageScreenViewModel.senderEmailState.observeAsState(initial = "")
 
         var emptySender by remember {
             mutableStateOf(false)
@@ -59,9 +61,6 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
         val context = LocalContext.current
         val messageRepository = MessageRepository(context)
 
-        var messageList = remember {
-            mutableStateOf(messageRepository.getAllMessage())
-        }
 
         Column(
             modifier = Modifier.
@@ -90,7 +89,9 @@ fun MessageScreen(messageScreenViewModel: MessageScreenViewModel) {
                                     sender = sender,
                                     recipients = recipients,
                                     subject = subject,
-                                    body = body
+                                    body = body,
+                                    senderName= senderName,
+                                    senderEmail = senderEmail
                                 )
 
                                 messageRepository.create(message)

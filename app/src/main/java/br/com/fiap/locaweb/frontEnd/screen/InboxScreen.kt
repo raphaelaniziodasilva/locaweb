@@ -28,17 +28,20 @@ fun InboxScreen(navController: NavController) {
     val userRepository = UserRepository(context)
     val messageRepository = MessageRepository(context)
 
-    var contactsList = remember {
-        mutableStateOf(userRepository.getAllUser())
+    val email = "kamado@gmail.com"
+
+    var contact = remember {
+        mutableStateOf(userRepository.getUserByEmail(email))
     }
     var messageList = remember {
-        mutableStateOf(messageRepository.getAllMessage())
+        mutableStateOf(messageRepository.getMessagesWithSenderInfoForRecipient(email))
     }
-    
+
     Box() {
         Column {
             IconButton(
                 onClick = {
+                    // Implemente a ação desejada ao clicar no ícone de lista
                 }
             ) {
                 Icon(
@@ -48,13 +51,12 @@ fun InboxScreen(navController: NavController) {
             }
 
             MessageList(
-                users = contactsList,
-                messages = messageList,
-                onItemClick = { message ->
-                    // Navegar para a tela de detalhes da mensagem ao clicar nela
-                    navController.navigate("message_item_screen/${message.id}")
-                }
-            )
+                users = contact,
+                messages = messageList
+            ) { message ->
+                // Navegar para a tela de detalhes da mensagem ao clicar nela
+                navController.navigate("message_item_screen/${message.id}")
+            }
         }
         Column(
             modifier = Modifier.align(Alignment.BottomEnd)

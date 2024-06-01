@@ -41,6 +41,14 @@ data class Message(
     @ColumnInfo(name = "data_recebimento")
     var receiptDate: String = getCurrentDateTime(),
 
+    // Nome do remetente da mensagem
+    @ColumnInfo(name = "sender_name")
+    var senderName: String,
+
+    // Email do remetente da mensagem
+    @ColumnInfo(name = "sender_email")
+    var senderEmail: String,
+
     // Indica se a mensagem foi lida. Pode ser usado para rastrear o status de leitura da mensagem.
     @ColumnInfo(name = "status_leitura")
     var read: Boolean = false,

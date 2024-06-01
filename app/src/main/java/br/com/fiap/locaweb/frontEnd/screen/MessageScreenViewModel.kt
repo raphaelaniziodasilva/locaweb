@@ -17,6 +17,12 @@ class MessageScreenViewModel : ViewModel(){
     private val _body = MutableLiveData<String>()
     val bodyState: LiveData<String> = _body
 
+    private val _senderName = MutableLiveData<String>()
+    val senderNameState: LiveData<String> = _senderName
+
+    private val _senderEmail = MutableLiveData<String>()
+    val senderEmailState: LiveData<String> = _senderEmail
+
     private val _read = MutableLiveData<Boolean>()
     val readState: LiveData<Boolean> = _read
 
@@ -43,6 +49,14 @@ class MessageScreenViewModel : ViewModel(){
 
     fun onBodyChanged(newBody: String) {
         _body.value = newBody
+    }
+
+    fun onSenderNameChanged(newSenderName: String) {
+        _senderName.value = newSenderName
+    }
+
+    fun onSenderEmailChanged(newSenderEmail: String) {
+        _senderEmail.value = newSenderEmail
     }
 
     fun onReadStateChanged(newReadState: Boolean) {

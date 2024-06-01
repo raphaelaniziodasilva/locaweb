@@ -22,6 +22,11 @@ class MessageRepository(context: Context) {
         return db.getMessageById(id)
     }
 
+    fun getMessagesWithSenderInfoForRecipient(recipientEmail: String): List<Message> {
+        return db.getMessagesWithSenderInfoForRecipient(recipientEmail)
+    }
+
+
     fun update(id: Long, newMessage: Message): Int {
         val existingMessage = db.getMessageById(id)
         if(existingMessage == null) {
