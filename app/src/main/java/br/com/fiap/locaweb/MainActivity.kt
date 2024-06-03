@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                             CreateAccountScreen(navController, CreateAccountScreenViewModel())
                         }
                         composable(route = "messageScreen"){
-                            MessageScreen(MessageScreenViewModel())
+                            MessageScreen(navController, MessageScreenViewModel())
                         }
                         composable(route = "inboxScreen"){
                             InboxScreen(navController)

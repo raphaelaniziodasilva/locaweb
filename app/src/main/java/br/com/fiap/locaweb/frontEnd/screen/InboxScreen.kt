@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,17 +21,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import br.com.fiap.locaweb.backEnd.model.Message
 import br.com.fiap.locaweb.backEnd.repository.MessageRepository
+import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.MessageList
 
 @Composable
 fun InboxScreen(navController: NavController) {
-    val messageRepository = MessageRepository(LocalContext.current)
+    val context = LocalContext.current
+    val userRepository = UserRepository(context)
+    val messageRepository = MessageRepository(context)
+    val user = userRepository.getLoggedInUser()
 
-    val email = "vini@gmail.com"
+    var email by remember { mutableStateOf("") }
+    var messageList by remember { mutableStateOf(emptyList<Message>()) }
 
-    var messageList by remember {
-        mutableStateOf(messageRepository.getMessagesWithSenderInfoForRecipient(email))
+    // Atualize o email e a lista de mensagens quando o usuário estiver disponível
+    LaunchedEffect(user) {
+        user?.let {
+            email = it.email
+            messageList = messageRepository.getMessagesWithSenderInfoForRecipient(email)
+        }
     }
 
     Box() {
@@ -72,3 +83,4 @@ fun InboxScreen(navController: NavController) {
         }
     }
 }
+

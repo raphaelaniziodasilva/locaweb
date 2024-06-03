@@ -74,4 +74,8 @@ class MessageScreenViewModel : ViewModel(){
     fun onArchivedStateChanged(newArchivedState: Boolean) {
         _archived.value = newArchivedState
     }
+
+    fun initializeSender(email: String) {
+        _sender.value = email
+    }
 }

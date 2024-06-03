@@ -1,12 +1,14 @@
 package br.com.fiap.locaweb.backEnd.repository
 
 import android.content.Context
+import android.content.SharedPreferences
 import br.com.fiap.locaweb.backEnd.database.AppDatabase
 import br.com.fiap.locaweb.backEnd.model.User
 import java.util.Calendar
 
-class UserRepository(context: Context) {
+class UserRepository(private val context: Context) {
     private val db = AppDatabase.getDatabase(context).userDao()
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     fun create(user: User): Long {
         val existingUser = db.getUserByEmail(user.email)
@@ -28,7 +30,7 @@ class UserRepository(context: Context) {
     fun update(email: String, newUser: User): Int {
         val existingUser = db.getUserByEmail(email)
         if(existingUser == null) {
-            throw IllegalArgumentException("O usuário com e-mail ${email} não existe")
+            throw IllegalArgumentException("O usuário com e-mail $email não existe")
         }
 
         val updatedUser = existingUser.copy(
@@ -56,10 +58,23 @@ class UserRepository(context: Context) {
 
         val user = db.getUserByEmail(email)
         return if (user != null && user.password == password) {
+            sharedPreferences.edit().putString("logged_in_user_email", email).apply()
             Pair(true, "")
         } else {
             Pair(false, "E-mail ou senha inválidos")
         }
     }
 
+    fun getLoggedInUser(): User? {
+        val email = sharedPreferences.getString("logged_in_user_email", null)
+        return if (email != null) {
+            db.getUserByEmail(email)
+        } else {
+            null
+        }
+    }
+
+    fun logoutUser() {
+        sharedPreferences.edit().remove("logged_in_user_email").apply()
+    }
 }
