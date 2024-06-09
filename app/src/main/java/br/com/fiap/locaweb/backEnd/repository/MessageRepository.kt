@@ -26,6 +26,9 @@ class MessageRepository(context: Context) {
         return db.getMessagesWithSenderInfoForRecipient(recipientEmail)
     }
 
+    fun getImportantMessagesForRecipient(recipientEmail: String): List<Message> {
+        return db.getImportantMessagesForRecipient(recipientEmail)
+    }
 
     fun update(id: Long, newMessage: Message): Int {
         val existingMessage = db.getMessageById(id)
@@ -61,5 +64,4 @@ class MessageRepository(context: Context) {
             return dateFormat.format(date)
         }
     }
-
 }

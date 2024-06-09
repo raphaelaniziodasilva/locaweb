@@ -1,6 +1,5 @@
 package br.com.fiap.locaweb
 
-import MessageItemScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,9 +12,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreen
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreenViewModel
+import br.com.fiap.locaweb.frontEnd.screen.ImportantScreen
 import br.com.fiap.locaweb.frontEnd.screen.InboxScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreenViewModel
+import br.com.fiap.locaweb.frontEnd.screen.MessageItemScreen
 import br.com.fiap.locaweb.frontEnd.screen.MessageScreen
 import br.com.fiap.locaweb.frontEnd.screen.MessageScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.RespondScreen
@@ -28,7 +29,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LocawebTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -61,7 +61,9 @@ class MainActivity : ComponentActivity() {
                             val messageId = backStackEntry.arguments?.getString("messageId")?.toLong() ?: 0L
                             RespondScreen(navController, messageId)
                         }
-
+                        composable(route = "importantScreen") {
+                            ImportantScreen(navController)
+                        }
                     }
                 }
             }

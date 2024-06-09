@@ -17,8 +17,11 @@ interface MessageDao {
     @Query("SELECT * FROM mensagem WHERE id = :id")
     fun getMessageById(id: Long): Message
 
-    @Query("SELECT mensagem.*, contato.nome as senderName, contato.email as senderEmail FROM mensagem INNER JOIN contato ON mensagem.remetente = contato.email WHERE destinatario = :recipientEmail ORDER BY mensagem.created_at")
+    @Query("SELECT mensagem.*, contato.nome as senderName, contato.email as senderEmail FROM mensagem INNER JOIN contato ON mensagem.remetente = contato.email WHERE destinatario = :recipientEmail AND importante = 0 ORDER BY mensagem.created_at")
     fun getMessagesWithSenderInfoForRecipient(recipientEmail: String): List<Message>
+
+    @Query("SELECT * FROM mensagem WHERE importante = 1 AND destinatario = :recipientEmail ORDER BY created_at")
+    fun getImportantMessagesForRecipient(recipientEmail: String): List<Message>
 
     @Update
     fun update(message: Message): Int
