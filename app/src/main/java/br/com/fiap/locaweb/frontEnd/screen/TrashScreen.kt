@@ -25,7 +25,7 @@ import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.MessageList
 
 @Composable
-fun ImportantScreen(navController: NavController) {
+fun TrashScreen(navController: NavController) {
     val context = LocalContext.current
     val messageRepository = MessageRepository(context)
     val userRepository = UserRepository(context)
@@ -34,7 +34,7 @@ fun ImportantScreen(navController: NavController) {
     var email by remember {
         mutableStateOf("")
     }
-    var importantMessages by remember {
+    var trashMessages by remember {
         mutableStateOf(emptyList<Message>())
     }
     var isMenuExpanded by remember {
@@ -45,7 +45,7 @@ fun ImportantScreen(navController: NavController) {
     LaunchedEffect(user) {
         user?.let {
             email = it.email
-            importantMessages = messageRepository.getImportantMessages(email)
+            trashMessages = messageRepository.getTrashMessages(email)
         }
     }
 
@@ -90,7 +90,7 @@ fun ImportantScreen(navController: NavController) {
             }
 
             MessageList(
-                messages = importantMessages
+                messages = trashMessages
             ) { message ->
                 navController.navigate("message_item_screen/${message.id}")
             }

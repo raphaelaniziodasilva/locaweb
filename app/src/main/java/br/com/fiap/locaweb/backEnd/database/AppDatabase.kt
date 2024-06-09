@@ -21,7 +21,7 @@ import br.com.fiap.locaweb.backEnd.model.User
         Attachment::class,
         Inbox::class
     ],
-    version = 3
+    version = 4
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

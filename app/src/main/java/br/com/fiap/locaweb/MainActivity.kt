@@ -20,6 +20,7 @@ import br.com.fiap.locaweb.frontEnd.screen.MessageItemScreen
 import br.com.fiap.locaweb.frontEnd.screen.MessageScreen
 import br.com.fiap.locaweb.frontEnd.screen.MessageScreenViewModel
 import br.com.fiap.locaweb.frontEnd.screen.RespondScreen
+import br.com.fiap.locaweb.frontEnd.screen.TrashScreen
 import br.com.fiap.locaweb.ui.theme.LocawebTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
@@ -63,6 +64,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "importantScreen") {
                             ImportantScreen(navController)
+                        }
+                        composable(route = "trashScreen") {
+                            TrashScreen(navController)
                         }
                     }
                 }

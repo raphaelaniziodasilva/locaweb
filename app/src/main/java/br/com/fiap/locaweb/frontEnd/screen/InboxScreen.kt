@@ -35,9 +35,15 @@ fun InboxScreen(navController: NavController) {
     val messageRepository = MessageRepository(context)
     val user = userRepository.getLoggedInUser()
 
-    var email by remember { mutableStateOf("") }
-    var messageList by remember { mutableStateOf(emptyList<Message>()) }
-    var isMenuExpanded by remember { mutableStateOf(false) }
+    var email by remember {
+        mutableStateOf("")
+    }
+    var messageList by remember {
+        mutableStateOf(emptyList<Message>())
+    }
+    var isMenuExpanded by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(user) {
         user?.let {
@@ -74,6 +80,14 @@ fun InboxScreen(navController: NavController) {
                         .padding(bottom = 8.dp)
                         .clickable {
                             navController.navigate("importantScreen")
+                        }
+                )
+                Text(
+                    text = "Lixeira",
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            navController.navigate("trashScreen")
                         }
                 )
             }

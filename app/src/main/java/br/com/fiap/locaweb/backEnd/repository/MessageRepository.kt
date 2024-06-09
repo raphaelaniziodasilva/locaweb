@@ -26,8 +26,12 @@ class MessageRepository(context: Context) {
         return db.getMessagesWithSenderInfoForRecipient(recipientEmail)
     }
 
-    fun getImportantMessagesForRecipient(recipientEmail: String): List<Message> {
-        return db.getImportantMessagesForRecipient(recipientEmail)
+    fun getImportantMessages(recipientEmail: String): List<Message> {
+        return db.getImportantMessages(recipientEmail)
+    }
+
+    fun getTrashMessages(recipientEmail: String): List<Message> {
+        return db.getTrashMessages(recipientEmail)
     }
 
     fun update(id: Long, newMessage: Message): Int {
@@ -42,8 +46,6 @@ class MessageRepository(context: Context) {
             subject = newMessage.subject,
             body = newMessage.body,
             sentDate = newMessage.sentDate,
-            receiptDate = newMessage.receiptDate,
-            read = newMessage.read,
             important = newMessage.important,
             favorite = newMessage.favorite,
             archived = newMessage.archived,
@@ -63,5 +65,19 @@ class MessageRepository(context: Context) {
             val date = Calendar.getInstance().time
             return dateFormat.format(date)
         }
+    }
+
+    fun moveToTrash(id: Long, message: Message): Int {
+        val existingMessage = db.getMessageById(id)
+        if(existingMessage == null) {
+            throw IllegalArgumentException("Mensagem não encontrada")
+        }
+
+        val updatedMessage = existingMessage.copy(
+            lixeira = true,
+            updatedAt = getCurrentDateTime()
+        )
+
+        return db.update(updatedMessage)
     }
 }
