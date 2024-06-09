@@ -2,13 +2,10 @@ package br.com.fiap.locaweb.frontEnd.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -17,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,28 +34,58 @@ import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.InputField
 
 @Composable
-fun MessageScreen(navController: NavController, messageScreenViewModel: MessageScreenViewModel) {
+fun RespondScreen(navController: NavController, messageId: Long) {
     val context = LocalContext.current
-    val userRepository = UserRepository(context)
     val messageRepository = MessageRepository(context)
-    val user = userRepository.getLoggedInUser()
+    val originalMessage = messageRepository.getMessageById(messageId)
 
-    // Inicialize o sender com o email do usuário logado
-    LaunchedEffect(key1 = user) {
-        user?.let {
-            messageScreenViewModel.initializeSender(it.email)
-        }
-    }
-
-    val sender by messageScreenViewModel.senderState.observeAsState(initial = "")
-    val recipients by messageScreenViewModel.recipientsState.observeAsState(initial = "")
-    val subject by messageScreenViewModel.subjectState.observeAsState(initial = "")
-    val body by messageScreenViewModel.bodyState.observeAsState(initial = "")
+    var sender by remember { mutableStateOf("") }
+    var recipients by remember { mutableStateOf(originalMessage?.sender ?: "") }
+    var subject by remember { mutableStateOf("Re: ${originalMessage?.subject ?: ""}") }
+    var body by remember { mutableStateOf("") }
 
     var emptySender by remember { mutableStateOf(false) }
     var emptyRecipients by remember { mutableStateOf(false) }
     var emptySubject by remember { mutableStateOf(false) }
     var emptyBody by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        val userRepository = UserRepository(context)
+        val user = userRepository.getLoggedInUser()
+        user?.let {
+            sender = it.email
+        }
+    }
+
+    fun validateInputs(): Boolean {
+        emptySender = sender.isEmpty()
+        emptyRecipients = recipients.isEmpty()
+        emptySubject = subject.isEmpty()
+        emptyBody = body.isEmpty()
+        return !(emptySender || emptyRecipients || emptySubject || emptyBody)
+    }
+
+    fun sendResponse() {
+        if (validateInputs()) {
+            val userRepository = UserRepository(context)
+            val currentUser = userRepository.getUserByEmail(sender)
+            if (currentUser != null) {
+                val message = Message(
+                    id = 0,
+                    sender = sender,
+                    recipients = recipients,
+                    subject = subject,
+                    body = body,
+                    senderName = currentUser.name,
+                    senderEmail = currentUser.email
+                )
+                messageRepository.create(message)
+                navController.navigate("inboxScreen")
+            } else {
+                emptySender = true
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -74,55 +100,14 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
                     .background(color = colorResource(id = R.color.white)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                IconButton(
+                    onClick = { sendResponse() },
+                    modifier = Modifier.align(Alignment.End)
                 ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    IconButton(
-                        onClick = {
-                            navController.navigate("inboxScreen")
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Fechar"
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            emptySender = sender.isEmpty()
-                            emptyRecipients = recipients.isEmpty()
-                            emptySubject = subject.isEmpty()
-                            emptyBody = body.isEmpty()
-
-                            if (!emptySender && !emptyRecipients && !emptySubject && !emptyBody) {
-                                // Atualiza o usuário antes de criar a mensagem
-                                val currentUser = userRepository.getUserByEmail(sender)
-                                if (currentUser != null) {
-                                    val message = Message(
-                                        id = 0,
-                                        sender = sender,
-                                        recipients = recipients,
-                                        subject = subject,
-                                        body = body,
-                                        senderName = currentUser.name,
-                                        senderEmail = currentUser.email
-                                    )
-                                    messageRepository.create(message)
-                                    navController.navigate("inboxScreen")
-                                } else {
-                                    // Handle user not found case
-                                    emptySender = true
-                                }
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = "Enviar",
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        contentDescription = "Enviar",
+                    )
                 }
 
                 InputField(
@@ -131,9 +116,7 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
                     value = sender,
                     keyboardType = KeyboardType.Email,
                     modifier = Modifier.fillMaxWidth(),
-                    updateValue = {
-                        messageScreenViewModel.onSenderChanged(it)
-                    },
+                    updateValue = { sender = it },
                     emptyError = emptySender,
                 )
 
@@ -153,9 +136,7 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
                     value = recipients,
                     keyboardType = KeyboardType.Email,
                     modifier = Modifier.fillMaxWidth(),
-                    updateValue = {
-                        messageScreenViewModel.onRecipientsChanged(it)
-                    },
+                    updateValue = { recipients = it },
                     emptyError = emptyRecipients,
                 )
 
@@ -175,9 +156,7 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
                     value = subject,
                     keyboardType = KeyboardType.Text,
                     modifier = Modifier.fillMaxWidth(),
-                    updateValue = {
-                        messageScreenViewModel.onSubjectChanged(it)
-                    },
+                    updateValue = { subject = it },
                     emptyError = emptySubject,
                 )
 
@@ -196,10 +175,10 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
                     placeholder = "Escreva o assunto completo",
                     value = body,
                     keyboardType = KeyboardType.Text,
-                    modifier = Modifier.fillMaxWidth().height(510.dp),
-                    updateValue = {
-                        messageScreenViewModel.onBodyChanged(it)
-                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(510.dp),
+                    updateValue = { body = it },
                     emptyError = emptyBody,
                 )
 

@@ -25,11 +25,11 @@ import br.com.fiap.locaweb.backEnd.model.Message
 @Composable
 fun Inbox(
     message: Message,
-    onItemClick: (Message) -> Unit // Adicione o parâmetro onItemClick
+    onItemClick: (Message) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        onClick = { onItemClick(message) } // Chame onItemClick ao clicar na mensagem
+        onClick = { onItemClick(message) }
     ) {
         val context = LocalContext.current
 
@@ -74,7 +74,6 @@ fun MessageList(
             .verticalScroll(rememberScrollState())
     ) {
         for (message in messages) {
-            // Acessando o usuário diretamente, já que users.value contém o usuário único
             Inbox(message) {
                 onItemClick(it)
             }
