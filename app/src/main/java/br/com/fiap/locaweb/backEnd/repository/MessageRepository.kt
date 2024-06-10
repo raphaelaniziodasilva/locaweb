@@ -80,4 +80,18 @@ class MessageRepository(context: Context) {
 
         return db.update(updatedMessage)
     }
+
+    fun restoreFromTrash(id: Long): Int {
+        val existingMessage = db.getMessageById(id)
+        if (existingMessage == null) {
+            throw IllegalArgumentException("Mensagem não encontrada")
+        }
+
+        val updatedMessage = existingMessage.copy(
+            lixeira = false,
+            updatedAt = getCurrentDateTime()
+        )
+
+        return db.update(updatedMessage)
+    }
 }

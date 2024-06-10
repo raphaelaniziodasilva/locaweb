@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -50,7 +51,7 @@ fun MessageItemScreen(messageId: Long, navController: NavController) {
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    navController.navigate("inboxScreen")
+                    navController.popBackStack()
                 }
             ) {
                 Icon(
@@ -70,29 +71,43 @@ fun MessageItemScreen(messageId: Long, navController: NavController) {
                     tint = if (message.important) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
             }
-            IconButton(
-                onClick = {
-                    message = message.copy(lixeira = !message.lixeira)
-                    messageRepository.moveToTrash(message.id, message)
+            if (message.lixeira) {
+                IconButton(
+                    onClick = {
+                        messageRepository.restoreFromTrash(message.id)
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = "Restaurar para a Caixa de Entrada"
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Excluir"
-                )
+                IconButton(
+                    onClick = {
+                        messageRepository.delete(messageId)
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Excluir Permanentemente"
+                    )
+                }
+            } else {
+                IconButton(
+                    onClick = {
+                        message = message.copy(lixeira = !message.lixeira)
+                        messageRepository.moveToTrash(message.id, message)
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Mover para a lixeira"
+                    )
+                }
             }
-
-//            IconButton(
-//                onClick = {
-//                    messageRepository.delete(messageId)
-//                    navController.popBackStack()
-//                }
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Delete,
-//                    contentDescription = "Excluir"
-//                )
-//            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
