@@ -80,6 +80,14 @@ fun TrashScreen(navController: NavController) {
                         }
                 )
                 Text(
+                    text = "Enviados",
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            navController.navigate("sentScreen")
+                        }
+                )
+                Text(
                     text = "Lixeira",
                     modifier = Modifier
                         .padding(bottom = 8.dp)

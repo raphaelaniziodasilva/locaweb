@@ -94,4 +94,8 @@ class MessageRepository(context: Context) {
 
         return db.update(updatedMessage)
     }
+
+    fun getSentMessages(senderEmail: String): List<Message> {
+        return db.getSentMessages(senderEmail)
+    }
 }

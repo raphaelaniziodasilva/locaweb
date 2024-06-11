@@ -26,6 +26,9 @@ interface MessageDao {
     @Query("SELECT * FROM mensagem WHERE lixeira = 1 AND destinatario = :recipientEmail ORDER BY created_at")
     fun getTrashMessages(recipientEmail: String): List<Message>
 
+    @Query("SELECT * FROM mensagem WHERE remetente = :senderEmail ORDER BY created_at")
+    fun getSentMessages(senderEmail: String): List<Message>
+
     @Update
     fun update(message: Message): Int
 

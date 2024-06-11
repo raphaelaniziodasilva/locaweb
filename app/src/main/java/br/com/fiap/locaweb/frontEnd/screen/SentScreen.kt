@@ -22,10 +22,10 @@ import androidx.navigation.NavController
 import br.com.fiap.locaweb.backEnd.model.Message
 import br.com.fiap.locaweb.backEnd.repository.MessageRepository
 import br.com.fiap.locaweb.backEnd.repository.UserRepository
-import br.com.fiap.locaweb.frontEnd.components.MessageList
+import br.com.fiap.locaweb.frontEnd.components.SentMessageList
 
 @Composable
-fun ImportantScreen(navController: NavController) {
+fun SentScreen(navController: NavController) {
     val context = LocalContext.current
     val messageRepository = MessageRepository(context)
     val userRepository = UserRepository(context)
@@ -34,18 +34,17 @@ fun ImportantScreen(navController: NavController) {
     var email by remember {
         mutableStateOf("")
     }
-    var importantMessages by remember {
+    var sentMessages by remember {
         mutableStateOf(emptyList<Message>())
     }
     var isMenuExpanded by remember {
         mutableStateOf(false)
     }
 
-
     LaunchedEffect(user) {
         user?.let {
             email = it.email
-            importantMessages = messageRepository.getImportantMessages(email)
+            sentMessages = messageRepository.getSentMessages(email)
         }
     }
 
@@ -97,8 +96,8 @@ fun ImportantScreen(navController: NavController) {
                 )
             }
 
-            MessageList(
-                messages = importantMessages
+            SentMessageList(
+                messages = sentMessages
             ) { message ->
                 navController.navigate("message_item_screen/${message.id}")
             }
