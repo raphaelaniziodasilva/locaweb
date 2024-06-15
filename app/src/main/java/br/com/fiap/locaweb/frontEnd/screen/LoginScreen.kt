@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -85,7 +84,7 @@ fun LoginScreen(navController: NavController, loginScreenViewModel: LoginScreenV
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = colorResource(id = R.color.blue_ligth))
+                        .background(color = Color(0xFFD6EAF8))
                         .padding(top = 20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {

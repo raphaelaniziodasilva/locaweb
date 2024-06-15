@@ -44,7 +44,6 @@ fun MessageScreen(navController: NavController, messageScreenViewModel: MessageS
     val messageRepository = MessageRepository(context)
     val user = userRepository.getLoggedInUser()
 
-    // Inicialize o sender com o email do usuário logado
     LaunchedEffect(key1 = user) {
         user?.let {
             messageScreenViewModel.initializeSender(it.email)
