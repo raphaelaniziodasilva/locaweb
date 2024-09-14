@@ -32,16 +32,16 @@ import br.com.fiap.locaweb.backEnd.repository.UserRepository
 import br.com.fiap.locaweb.frontEnd.components.MessageList
 
 @Composable
-fun InboxScreen(navController: NavController) {
+fun SpamScreen(navController: NavController) {
     val context = LocalContext.current
-    val userRepository = UserRepository(context)
     val messageRepository = MessageRepository(context)
+    val userRepository = UserRepository(context)
     val user = userRepository.getLoggedInUser()
 
     var email by remember {
         mutableStateOf("")
     }
-    var messageList by remember {
+    var importantMessages by remember {
         mutableStateOf(emptyList<Message>())
     }
     var isMenuExpanded by remember {
@@ -51,7 +51,7 @@ fun InboxScreen(navController: NavController) {
     LaunchedEffect(user) {
         user?.let {
             email = it.email
-            messageList = messageRepository.getMessagesWithSenderInfoForRecipient(email)
+            importantMessages = messageRepository.getSpam(email)
         }
     }
 
@@ -142,7 +142,7 @@ fun InboxScreen(navController: NavController) {
             }
 
             MessageList(
-                messages = messageList
+                messages = importantMessages
             ) { message ->
                 navController.navigate("message_item_screen/${message.id}")
             }

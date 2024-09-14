@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -82,6 +83,18 @@ fun MessageItemScreen(messageId: Long, navController: NavController) {
                     imageVector = Icons.Default.Star,
                     contentDescription = if (message.important) "Desmarcar como importante" else "Marcar como importante",
                     tint = if (message.important) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                )
+            }
+            IconButton(
+                onClick = {
+                    message = message.copy(spam = !message.spam)
+                    messageRepository.update(message.id, message)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = if (message.spam) "Desmarcar como spam" else "Marcar como spam",
+                    tint = if (message.spam) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
             }
             if (message.lixeira) {

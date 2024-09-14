@@ -118,6 +118,17 @@ fun SentScreen(navController: NavController) {
                         }
                 )
                 Text(
+                    text = "Spam",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            navController.navigate("spamScreen")
+                        }
+                )
+                Text(
                     text = "Lixeira",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,

@@ -38,6 +38,10 @@ class MessageRepository(context: Context) {
         return db.getTrashMessages(recipientEmail)
     }
 
+    fun getSpam(recipientEmail: String): List<Message> {
+        return db.getSpam(recipientEmail)
+    }
+
     fun update(id: Long, newMessage: Message): Int {
         val existingMessage = db.getMessageById(id)
         if(existingMessage == null) {
@@ -53,6 +57,7 @@ class MessageRepository(context: Context) {
             important = newMessage.important,
             favorite = newMessage.favorite,
             archived = newMessage.archived,
+            spam = newMessage.spam,
             updatedAt = getCurrentDateTime()
         )
 

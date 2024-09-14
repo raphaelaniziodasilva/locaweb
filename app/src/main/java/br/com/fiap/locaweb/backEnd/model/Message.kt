@@ -47,6 +47,9 @@ data class Message(
     @ColumnInfo(name = "arquivada")
     var archived: Boolean = false,
 
+    @ColumnInfo(name = "spam")
+    var spam: Boolean = false,
+
     @ColumnInfo(name = "lixeira")
     var lixeira: Boolean = false,
 

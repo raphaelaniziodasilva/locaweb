@@ -56,7 +56,7 @@ fun TrashScreen(navController: NavController) {
     }
 
     Box(
-        modifier = Modifier.padding(16.dp) // Adicionando padding ao Box
+        modifier = Modifier.padding(16.dp)
     ) {
         Column {
             IconButton(
@@ -67,17 +67,17 @@ fun TrashScreen(navController: NavController) {
                 Icon(
                     imageVector = Icons.Default.List,
                     contentDescription = "menu",
-                    tint = Color.Gray, // Adicionando cor ao ícone
-                    modifier = Modifier.size(32.dp) // Adicionando tamanho ao ícone
+                    tint = Color.Gray,
+                    modifier = Modifier.size(32.dp)
                 )
             }
 
             if (isMenuExpanded) {
                 Text(
                     text = "Caixa de entrada",
-                    fontSize = 20.sp, // Adicionando tamanho da fonte
-                    fontWeight = FontWeight.Bold, // Adicionando peso da fonte
-                    color = Color.Black, // Adicionando cor ao texto
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
@@ -97,9 +97,9 @@ fun TrashScreen(navController: NavController) {
                 )
                 Text(
                     text = "Importante",
-                    fontSize = 20.sp, // Adicionando tamanho da fonte
-                    fontWeight = FontWeight.Bold, // Adicionando peso da fonte
-                    color = Color.Black, // Adicionando cor ao texto
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
@@ -108,9 +108,9 @@ fun TrashScreen(navController: NavController) {
                 )
                 Text(
                     text = "Enviados",
-                    fontSize = 20.sp, // Adicionando tamanho da fonte
-                    fontWeight = FontWeight.Bold, // Adicionando peso da fonte
-                    color = Color.Black, // Adicionando cor ao texto
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
@@ -118,10 +118,21 @@ fun TrashScreen(navController: NavController) {
                         }
                 )
                 Text(
+                    text = "Spam",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            navController.navigate("spamScreen")
+                        }
+                )
+                Text(
                     text = "Lixeira",
-                    fontSize = 20.sp, // Adicionando tamanho da fonte
-                    fontWeight = FontWeight.Bold, // Adicionando peso da fonte
-                    color = Color.Black, // Adicionando cor ao texto
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
