@@ -26,6 +26,10 @@ class MessageRepository(context: Context) {
         return db.getMessagesWithSenderInfoForRecipient(recipientEmail)
     }
 
+    fun getFavoriteMessages(recipientEmail: String): List<Message> {
+        return db.getFavoriteMessages(recipientEmail)
+    }
+
     fun getImportantMessages(recipientEmail: String): List<Message> {
         return db.getImportantMessages(recipientEmail)
     }

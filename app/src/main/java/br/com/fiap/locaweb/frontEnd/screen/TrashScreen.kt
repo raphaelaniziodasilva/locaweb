@@ -85,6 +85,17 @@ fun TrashScreen(navController: NavController) {
                         }
                 )
                 Text(
+                    text = "Favorito",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            navController.navigate("favoriteScreen")
+                        }
+                )
+                Text(
                     text = "Importante",
                     fontSize = 20.sp, // Adicionando tamanho da fonte
                     fontWeight = FontWeight.Bold, // Adicionando peso da fonte

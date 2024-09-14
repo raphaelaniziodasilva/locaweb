@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreen
 import br.com.fiap.locaweb.frontEnd.screen.CreateAccountScreenViewModel
+import br.com.fiap.locaweb.frontEnd.screen.FavoriteScreen
 import br.com.fiap.locaweb.frontEnd.screen.ImportantScreen
 import br.com.fiap.locaweb.frontEnd.screen.InboxScreen
 import br.com.fiap.locaweb.frontEnd.screen.LoginScreen
@@ -65,6 +66,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "importantScreen") {
                             ImportantScreen(navController)
+                        }
+                        composable(route = "favoriteScreen") {
+                            FavoriteScreen(navController)
                         }
                         composable(route = "trashScreen") {
                             TrashScreen(navController)

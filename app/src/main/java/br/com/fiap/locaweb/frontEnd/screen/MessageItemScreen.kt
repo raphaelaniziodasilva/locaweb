@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -57,6 +58,18 @@ fun MessageItemScreen(messageId: Long, navController: NavController) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Voltar"
+                )
+            }
+            IconButton(
+                onClick = {
+                    message = message.copy(favorite = !message.favorite)
+                    messageRepository.update(message.id, message)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = if (message.favorite) "Desmarcar como favorito" else "Marcar como favorito",
+                    tint = if (message.favorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
             }
             IconButton(
