@@ -10,7 +10,14 @@ import java.util.Locale
 class MessageRepository(context: Context) {
     private val db = AppDatabase.getDatabase(context).messageDao()
 
+    private val message_limit = 5
+    private val time_minutes = 1
+
     fun create(message: Message): Long {
+        if (isSpam(message.sender)) {
+            val spamMessage = message.copy(spam = true)
+            return db.create(spamMessage)
+        }
         return db.create(message)
     }
 
@@ -45,7 +52,7 @@ class MessageRepository(context: Context) {
     fun update(id: Long, newMessage: Message): Int {
         val existingMessage = db.getMessageById(id)
         if(existingMessage == null) {
-            throw IllegalArgumentException("Menssagem não encontrada")
+            throw IllegalArgumentException("Mensagem não encontrada")
         }
 
         val updatedMessage = existingMessage.copy(
@@ -106,5 +113,16 @@ class MessageRepository(context: Context) {
 
     fun getSentMessages(senderEmail: String): List<Message> {
         return db.getSentMessages(senderEmail)
+    }
+
+    private fun isSpam(senderEmail: String): Boolean {
+        val messagesSentRecently = db.getSentMessages(senderEmail)
+            .filter { message ->
+                val messageTime = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(message.sentDate).time
+                val currentTime = Calendar.getInstance().time.time
+                val diffMinutes = (currentTime - messageTime) / (1000 * 60)
+                diffMinutes < time_minutes
+            }
+        return messagesSentRecently.size >= message_limit
     }
 }

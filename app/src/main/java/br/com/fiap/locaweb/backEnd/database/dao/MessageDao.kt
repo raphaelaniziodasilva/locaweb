@@ -29,6 +29,9 @@ interface MessageDao {
     @Query("SELECT * FROM mensagem WHERE spam = 1 AND importante = 0 AND favorito = 0 AND lixeira = 0 AND destinatario = :recipientEmail ORDER BY created_at")
     fun getSpam(recipientEmail: String): List<Message>
 
+    @Query("SELECT COUNT(*) FROM mensagem WHERE remetente = :senderEmail AND created_at > :startTime")
+    fun countMessagesSentByUserAfter(senderEmail: String, startTime: String): Int
+
     @Query("SELECT * FROM mensagem WHERE lixeira = 1 AND favorito = 0 AND importante = 0 AND destinatario = :recipientEmail ORDER BY created_at")
     fun getTrashMessages(recipientEmail: String): List<Message>
 
