@@ -139,6 +139,20 @@ fun SpamScreen(navController: NavController) {
                             navController.navigate("trashScreen")
                         }
                 )
+                Text(
+                    text = "Sair",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            userRepository.logoutUser()
+                            navController.navigate("login") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        }
+                )
             }
 
             MessageList(

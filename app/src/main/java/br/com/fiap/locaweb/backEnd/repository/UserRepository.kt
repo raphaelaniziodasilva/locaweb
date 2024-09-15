@@ -75,6 +75,7 @@ class UserRepository(private val context: Context) {
     }
 
     fun logoutUser() {
-        sharedPreferences.edit().remove("logged_in_user_email").apply()
+        // Clear the SharedPreferences
+        sharedPreferences.edit().clear().apply()
     }
 }
