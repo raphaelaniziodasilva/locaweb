@@ -75,7 +75,6 @@ class UserRepository(private val context: Context) {
     }
 
     fun logoutUser() {
-        // Clear the SharedPreferences
         sharedPreferences.edit().clear().apply()
     }
 }
